@@ -1,0 +1,53 @@
+#!/bin/sh
+# Magnetism Package Manager (mgt)
+
+case "$1" in
+    -i) # Install (Magnetize)
+    PACKAGE=$2
+    REPO="https://raw.githubusercontent.com/foobtech/Magnetism-Package-Repo/main"
+
+    echo "finding $PACKAGE in the Magnetism Package Repo..."
+
+    # Try .tar.gz first
+    if wget "$REPO/$PACKAGE.tar.gz" -O /tmp/pkg.tar; then
+        echo "woo we found a tar.gz for $PACKAGE, installin' that"
+    # If that fails, try .tar.bz2
+    elif wget "$REPO/$PACKAGE.tar.bz2" -O /tmp/pkg.tar; then
+        echo "woo we found a tar.bz2 for $PACKAGE, installin' that"
+    else
+        echo "we looked, and $PACKAGE doesn't seem to exist in the Magnetism Package Repo."
+        exit 1
+    fi
+
+    # Extract whatever we successfully downloaded
+    /bin/busybox tar -xvf /tmp/pkg.tar -C /
+    echo "$PACKAGE" >> /etc/mpr-status
+    echo "$PACKAGE is ready! \o/"
+    ;;
+
+
+    -r) # Remove (Demagnetize)
+        echo "removin' $2..."
+        # In a "Pure" build, we just delete the known files for now
+        # You'll need to manually list files to delete or automate this later
+        /bin/busybox rm -rf /etc/mpr-status 
+        echo "$2 has been removed o7"
+        ;;
+
+    -a) # Available (Scanning the Field)
+        echo "checking MPR packages..."
+        # Once your wget works, this will pull your packages.list from GitHub
+        echo "packages: test-pkg"
+        ;;
+
+    -l) # List Installed
+        echo "you packages:"
+        # For now, let's just look in /etc for our status file
+        ls /etc/mpr-status 2>/dev/null || echo "no packages :("
+        ;;
+
+    *)
+        echo "Usage: mgt [-i|-r|-a|-l] [package]"
+        ;;
+esac
+
