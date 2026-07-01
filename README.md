@@ -23,6 +23,8 @@ sudo yum install bash
 
 
 ```bash
+sudo mkdir -pv ./{proc,sys,run,dev/{shm,pts,}}
+
 sudo mount -v --bind /dev dev
 sudo mount -vt devpts devpts -o gid=5,mode=0620,newinstance dev/pts
 sudo mount -vt proc proc proc
@@ -37,5 +39,5 @@ fi
 
 sudo chroot . /bin/env -i TERM="$TERM" PS1='\u:\w\$ ' PATH=/bin:/sbin:/usr/bin /bin/ash --login
 
-When done:
+# When done:
 sudo umount ./{proc,sys,run,dev/{shm,pts,}}
