@@ -1,0 +1,14 @@
+dev/
+dev/*
+
+proc/
+proc/*
+
+sys/
+sys/*
+
+run/
+run/*
+
+dev/
+dev/*
