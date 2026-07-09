@@ -42,5 +42,5 @@ sudo chroot . /bin/env -i TERM="$TERM" PS1='\u:\w\$ ' PATH=/bin:/sbin:/usr/bin /
 # When done:
 sudo umount ./{proc,sys,run,dev/{shm,pts,}}
 ```
-#### Where do I chat?
+# Where do I chat?
 You can use our Scratch Studio: https://scratch.mit.edu/studios/51798003/
