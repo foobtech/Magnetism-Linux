@@ -1,5 +1,9 @@
 NAME="Magnetism Linux"
 ID=magnetism
 PRETTY_NAME="Magnetism Linux"
+VERSION="Þrymr"
+VERSION_ID="rolling"
+VERSION_CODENAME="thrymr"
 ANSI_COLOR="1;33"
 HOME_URL="https://github.com/foobtech/Magnetism-Linux"
+BUG_REPORT_URL="https://github.com/foobtech/Magnetism-Linux/issues"
