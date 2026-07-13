@@ -12,3 +12,8 @@ run/*
 
 dev/
 dev/*
+
+sources/
+build/
+
+./livecd.iso
