@@ -1,19 +1,25 @@
 #!/bin/bash
 
-sudo mkdir -pv ./{proc,sys,run,dev/{shm,pts,}}
+sudo mkdir -pv ./rootfs/{proc,sys,run,dev/{shm,pts,}} # Create the necessary mount points
 
-sudo mount -v --bind /dev $PWD/dev
-sudo mount -vt devpts devpts -o gid=5,mode=0620,newinstance $PWD/dev/pts
-sudo mount -vt proc proc $PWD/proc
-sudo mount -vt sysfs sysfs $PWD/sys
-sudo mount -vt tmpfs tmpfs $PWD/run
+# Mount virtual filesystems.
+sudo mount -v --bind /dev $PWD/rootfs/dev
+sudo mount -vt devpts devpts -o gid=5,mode=0620,newinstance $PWD/rootfs/dev/pts
+sudo mount -vt proc proc $PWD/rootfs/proc
+sudo mount -vt sysfs sysfs $PWD/rootfs/sys
+sudo mount -vt tmpfs tmpfs $PWD/rootfs/run
 
 if [ -h dev/shm ]; then
-  install -v -d -m 1777 $PWD$(realpath /dev/shm)
+  install -v -d -m 1777 $PWD/rootfs$(realpath /dev/shm)
 else
-  sudo mount -vt tmpfs -o nosuid,nodev tmpfs dev/shm
+  sudo mount -vt tmpfs -o nosuid,nodev tmpfs ./rootfs/dev/shm
 fi
 
-sudo chroot . /bin/env -i TERM="$TERM" PS1='\u:\w\$ ' PATH=/bin:/sbin:/usr/bin:/usr/sbin /bin/ash --login
+# Create missing folders
+sudo mkdir -pv ./rootfs/{bin,etc,home,lib,sbin,tmp,usr,var}
 
-sudo umount ./{proc,sys,run,dev/{shm,pts,}}
+# Chroot in.
+sudo chroot ./rootfs /bin/env -i TERM="$TERM" PS1='\u:\w\$ ' PATH=/bin:/sbin:/usr/bin:/usr/sbin /bin/ash --login
+
+# Unmount virtual filesystems
+sudo umount ./rootfs/{proc,sys,run,dev/{shm,pts,}}
