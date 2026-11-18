@@ -1,10 +1,6 @@
 ## Welcome to Magnetism Linux!
 A wacky linux distro! its *WIP* right now (probably always will be) that even has its own package manager!
 
-# Note for contributors:
-Currently, Magnetism linux is having a full rewrite for it's new update model.
-Please don't contribute while we are having a rewrite. Thank you!
-
 Requirements:
 * `bash`
 
